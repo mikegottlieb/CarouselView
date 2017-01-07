@@ -69,7 +69,6 @@ namespace CarouselView.FormsPlugin.Android
 				if (viewPager != null)
 				{
 					viewPager.PageSelected -= ViewPager_PageSelected;
-					viewPager.PageScrollStateChanged -= ViewPager_PageScrollStateChanged;
 				}
 
 				if (Element != null)
@@ -85,7 +84,6 @@ namespace CarouselView.FormsPlugin.Android
 				// Configure the control and subscribe to event handlers
 
 				viewPager.PageSelected += ViewPager_PageSelected;
-				viewPager.PageScrollStateChanged += ViewPager_PageScrollStateChanged;
 
 				Element.RemoveAction = new Action<int>(RemoveItem);
 				Element.InsertAction = new Action<object, int>(InsertItem);
@@ -134,15 +132,9 @@ namespace CarouselView.FormsPlugin.Android
 		void ViewPager_PageSelected (object sender, ViewPager.PageSelectedEventArgs e)
 		{
 			Element.Position = e.Position;
-		}
 
-		void ViewPager_PageScrollStateChanged (object sender, ViewPager.PageScrollStateChangedEventArgs e)
-		{
-			if (e.State == 0) {
-
-				if (!IsRemoving && Element.PositionSelected != null)
-					Element.PositionSelected(Element, EventArgs.Empty);
-			}
+			if (!IsRemoving && Element.PositionSelected != null)
+				Element.PositionSelected(Element, EventArgs.Empty);
 		}
 
 		// Android ViewPager is the most complicated piece of code ever :)
@@ -340,7 +332,6 @@ namespace CarouselView.FormsPlugin.Android
 				if (viewPager != null) {
 
 					viewPager.PageSelected -= ViewPager_PageSelected;
-                    viewPager.PageScrollStateChanged -= ViewPager_PageScrollStateChanged;
 
                     if (viewPager.Adapter != null)
 						viewPager.Adapter.Dispose ();
